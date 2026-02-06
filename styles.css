@@ -1,6 +1,7 @@
 body {
-  background: pink;
+  margin: 0;
   font-family: Arial, sans-serif;
+  background: pink;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,9 +15,25 @@ body {
   text-align: center;
 }
 
-button {
-  font-size: 18px;
+.valentine-img {
+  width: 220px;
+  max-width: 85%;
+  border-radius: 16px;
+  margin: 15px 0 20px;
+}
+
+.btn, button {
   padding: 10px 20px;
+  font-size: 18px;
   margin: 10px;
   cursor: pointer;
+}
+
+/* Smooth growth for YES */
+#yesBtn {
+  transition: transform 0.25s ease;
+}
+
+.hidden {
+  display: none;
 }
