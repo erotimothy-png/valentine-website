@@ -5,17 +5,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!yesBtn || !noBtn || !message) return;
 
-  // YES expands
+  // YES keeps growing
   let yesScale = 1;
   yesBtn.style.transition = "transform 0.25s ease";
 
+  // Grow on hover
   yesBtn.addEventListener("mouseover", () => {
     yesScale += 0.12;
     yesBtn.style.transform = `scale(${yesScale})`;
   });
 
-  // YES click → ONE bold message
+  // Grow MORE on click + show message
   yesBtn.addEventListener("click", () => {
+    yesScale += 0.25; // 👈 extra growth on click
+    yesBtn.style.transform = `scale(${yesScale})`;
+
     message.innerHTML =
       "<strong>Yay! You made me the happiest man alive! 💖</strong>";
   });
