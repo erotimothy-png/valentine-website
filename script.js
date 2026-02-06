@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // YES click shows celebration or message
   yesBtn.addEventListener("click", () => {
     if (celebration) celebration.classList.remove("hidden");
-    if (message) message.textContent = "Yay! You made me the happiest! 💖";
+    if (message) message.textContent = "";
   });
 
   // NO runs away (works for desktop + mobile)
