@@ -13,10 +13,12 @@ body {
   padding: 30px;
   border-radius: 15px;
   text-align: center;
+  position: relative;
 }
 
+/* IMAGE */
 .valentine-img {
-  width: 180px;        
+  width: 180px;
   max-width: 70%;
   height: auto;
   border-radius: 16px;
@@ -24,18 +26,37 @@ body {
   display: block;
 }
 
+/* BUTTON CONTAINER — VERY IMPORTANT FOR MOBILE */
+.buttons-container {
+  position: relative;     /* lets NO move inside */
+  height: 90px;           /* gives space to run */
+  margin-top: 10px;
+}
+
+/* BUTTONS */
 .btn, button {
   padding: 10px 20px;
   font-size: 18px;
   margin: 10px;
   cursor: pointer;
+  position: relative;
+  z-index: 2;             /* prevents overlap issues */
+  touch-action: manipulation; /* fixes mobile tap issues */
 }
 
-/* Smooth growth for YES */
+/* YES growth animation */
 #yesBtn {
   transition: transform 0.25s ease;
+  z-index: 3;             /* stays above NO visually */
 }
 
+/* HIDE ELEMENTS */
 .hidden {
   display: none;
+}
+
+/* MESSAGE */
+#message {
+  font-size: 22px;
+  margin-top: 20px;
 }
