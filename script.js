@@ -6,39 +6,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!yesBtn || !noBtn || !message || !container) return;
 
-  // Prevent iOS double-tap zoom / delay feeling
-  yesBtn.style.touchAction = "manipulation";
-  noBtn.style.touchAction = "manipulation";
-
-  // YES keeps growing (works on phone + desktop)
+  // --- YES grows ---
   let yesScale = 1;
   yesBtn.style.transition = "transform 0.2s ease";
 
-  const growYes = () => {
-    yesScale += 0.18; // increase for faster growth
+  const growYes = (amount = 0.2) => {
+    yesScale += amount;
     yesBtn.style.transform = `scale(${yesScale})`;
   };
 
-  // Use pointer events (best cross-device)
-  yesBtn.addEventListener("pointerenter", growYes); // desktop hover
-  yesBtn.addEventListener("pointerdown", (e) => {
-    e.preventDefault(); // avoids extra quirks on mobile
-    growYes();
+  // YES click shows message (and grows too)
+  yesBtn.addEventListener("click", () => {
+    growYes(0.25);
     message.innerHTML =
       "<strong>Yay! You made me the happiest man alive! 💖</strong>";
   });
 
-  // NO runs away on phone (touch) and desktop (hover/click)
+  // --- NO roams inside the buttons container ---
   noBtn.style.position = "absolute";
 
-  const moveNoInsideContainer = () => {
-    const pad = 8;
-
-    const c = container.getBoundingClientRect();
-    const b = noBtn.getBoundingClientRect();
-
-    const maxX = Math.max(pad, c.width - b.width - pad);
-    const maxY = Math.max(pad, c.height - b.height - pad);
+  const moveNoInside = () => {
+    const pad = 6;
+    const maxX = Math.max(pad, container.clientWidth - noBtn.offsetWidth - pad);
+    const maxY = Math.max(pad, container.clientHeight - noBtn.offsetHeight - pad);
 
     const x = Math.floor(Math.random() * maxX);
     const y = Math.floor(Math.random() * maxY);
@@ -47,15 +37,20 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.top = `${y}px`;
   };
 
-  // Initial position
-  moveNoInsideContainer();
+  // Place it once on load
+  moveNoInside();
 
-  // On desktop, it can run when you try to approach it
-  noBtn.addEventListener("pointerenter", moveNoInsideContainer);
+  // Desktop: runs when you approach
+  noBtn.addEventListener("mouseenter", moveNoInside);
 
-  // On phone, make it run when you try to tap it
-  noBtn.addEventListener("pointerdown", (e) => {
-    e.preventDefault();
-    moveNoInsideContainer();
-  });
+  // Phone/Chrome: when you try to tap NO, YES grows and NO jumps away
+  const onNoAttempt = (e) => {
+    e.preventDefault();      // helps on mobile/Chrome
+    growYes(0.18);           // YES gets bigger because you tried NO
+    moveNoInside();          // NO roams away
+  };
+
+  noBtn.addEventListener("touchstart", onNoAttempt, { passive: false });
+  noBtn.addEventListener("pointerdown", onNoAttempt);
+  noBtn.addEventListener("click", onNoAttempt);
 });
