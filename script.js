@@ -1,3 +1,8 @@
+// ✅ Corrected script.js (keeps all your previous behavior)
+// Fixes:
+// 1) Removes the duplicate copy (you pasted it twice)
+// 2) YES click shows ONLY ONE bold message (no duplicate text)
+
 document.addEventListener("DOMContentLoaded", () => {
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
@@ -16,10 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
     yesBtn.style.transform = `scale(${yesScale})`;
   });
 
-  // YES click shows celebration or message
+  // YES click: show ONLY bold message (and hide celebration to avoid duplicates)
   yesBtn.addEventListener("click", () => {
-    if (celebration) celebration.classList.remove("hidden");
-    if (message) message.textContent = "";
+    if (celebration) celebration.classList.add("hidden");
+    if (message) {
+      message.innerHTML = "<strong>Yay! You made me the happiest man alive! 💖</strong>";
+    }
   });
 
   // NO runs away (works for desktop + mobile)
