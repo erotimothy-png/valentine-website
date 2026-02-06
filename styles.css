@@ -1,3 +1,4 @@
+/* ===== PAGE LAYOUT ===== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -8,6 +9,7 @@ body {
   height: 100vh;
 }
 
+/* ===== CARD ===== */
 .valentine-card {
   background: white;
   padding: 30px;
@@ -16,7 +18,7 @@ body {
   position: relative;
 }
 
-/* IMAGE */
+/* ===== IMAGE ===== */
 .valentine-img {
   width: 180px;
   max-width: 70%;
@@ -26,37 +28,44 @@ body {
   display: block;
 }
 
-/* BUTTON CONTAINER — VERY IMPORTANT FOR MOBILE */
+/* ===== BUTTON CONTAINER (VERY IMPORTANT) ===== */
 .buttons-container {
-  position: relative;     /* lets NO move inside */
-  height: 90px;           /* gives space to run */
+  position: relative;   /* allows NO to move inside */
+  height: 120px;        /* space for NO to roam */
   margin-top: 10px;
+  overflow: visible;    /* prevents clipping */
 }
 
-/* BUTTONS */
-.btn, button {
+/* ===== BUTTONS ===== */
+.btn,
+button {
   padding: 10px 20px;
   font-size: 18px;
   margin: 10px;
   cursor: pointer;
   position: relative;
-  z-index: 2;             /* prevents overlap issues */
   touch-action: manipulation; /* fixes mobile tap issues */
 }
 
-/* YES growth animation */
+/* YES BUTTON */
 #yesBtn {
   transition: transform 0.25s ease;
-  z-index: 3;             /* stays above NO visually */
+  z-index: 1;           /* stays below NO */
 }
 
-/* HIDE ELEMENTS */
-.hidden {
-  display: none;
+/* NO BUTTON */
+#noBtn {
+  position: absolute;
+  z-index: 9999;        /* ALWAYS above YES */
 }
 
-/* MESSAGE */
+/* ===== MESSAGE ===== */
 #message {
   font-size: 22px;
   margin-top: 20px;
+}
+
+/* ===== HIDDEN UTILITY ===== */
+.hidden {
+  display: none;
 }
