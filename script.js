@@ -6,23 +6,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!yesBtn || !noBtn || !message || !container) return;
 
-  // --- YES grows ---
+  // YES grows ONLY when you try NO (and when you click YES)
   let yesScale = 1;
   yesBtn.style.transition = "transform 0.2s ease";
 
-  const growYes = (amount = 0.2) => {
+  const growYes = (amount = 0.22) => {
     yesScale += amount;
     yesBtn.style.transform = `scale(${yesScale})`;
   };
 
-  // YES click shows message (and grows too)
+  // Clicking YES: show message (optional extra growth)
   yesBtn.addEventListener("click", () => {
-    growYes(0.25);
+    growYes(0.15);
     message.innerHTML =
       "<strong>Yay! You made me the happiest man alive! 💖</strong>";
   });
 
-  // --- NO roams inside the buttons container ---
+  // NO roams inside the buttons container
   noBtn.style.position = "absolute";
 
   const moveNoInside = () => {
@@ -37,20 +37,21 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.top = `${y}px`;
   };
 
-  // Place it once on load
+  // Start position
   moveNoInside();
 
-  // Desktop: runs when you approach
+  // Desktop: NO runs when you approach
   noBtn.addEventListener("mouseenter", moveNoInside);
 
-  // Phone/Chrome: when you try to tap NO, YES grows and NO jumps away
+  // When you try to press NO: YES grows + NO jumps away (PHONE + CHROME safe)
   const onNoAttempt = (e) => {
-    e.preventDefault();      // helps on mobile/Chrome
-    growYes(0.18);           // YES gets bigger because you tried NO
-    moveNoInside();          // NO roams away
+    e.preventDefault();     // important for mobile Chrome
+    growYes(0.25);          // YES grows because you tried NO
+    moveNoInside();         // NO runs away
   };
 
-  noBtn.addEventListener("touchstart", onNoAttempt, { passive: false });
+  // Use pointer/touch/click so it works everywhere
   noBtn.addEventListener("pointerdown", onNoAttempt);
+  noBtn.addEventListener("touchstart", onNoAttempt, { passive: false });
   noBtn.addEventListener("click", onNoAttempt);
 });
