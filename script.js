@@ -6,23 +6,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!yesBtn || !noBtn || !message || !container) return;
 
-  // YES grows ONLY when you try NO (and when you click YES)
+  // YES grows ONLY when you try to click/tap NO
   let yesScale = 1;
   yesBtn.style.transition = "transform 0.2s ease";
 
-  const growYes = (amount = 0.22) => {
-    yesScale += amount;
+  const growYes = () => {
+    yesScale += 0.25; // growth amount
     yesBtn.style.transform = `scale(${yesScale})`;
   };
 
-  // Clicking YES: show message (optional extra growth)
+  // Clicking YES: show message ONLY (NO growth)
   yesBtn.addEventListener("click", () => {
-    growYes(0.15);
     message.innerHTML =
       "<strong>Yay! You made me the happiest man alive! 💖</strong>";
   });
 
-  // NO roams inside the buttons container
+  // NO runs away inside the buttons container
   noBtn.style.position = "absolute";
 
   const moveNoInside = () => {
@@ -37,20 +36,19 @@ document.addEventListener("DOMContentLoaded", () => {
     noBtn.style.top = `${y}px`;
   };
 
-  // Start position
+  // Initial NO position
   moveNoInside();
 
-  // Desktop: NO runs when you approach
+  // Desktop: runs when you approach
   noBtn.addEventListener("mouseenter", moveNoInside);
 
-  // When you try to press NO: YES grows + NO jumps away (PHONE + CHROME safe)
+  // Phone/Chrome: when you try to click/tap NO → YES grows + NO runs
   const onNoAttempt = (e) => {
-    e.preventDefault();     // important for mobile Chrome
-    growYes(0.25);          // YES grows because you tried NO
-    moveNoInside();         // NO runs away
+    e.preventDefault();
+    growYes();
+    moveNoInside();
   };
 
-  // Use pointer/touch/click so it works everywhere
   noBtn.addEventListener("pointerdown", onNoAttempt);
   noBtn.addEventListener("touchstart", onNoAttempt, { passive: false });
   noBtn.addEventListener("click", onNoAttempt);
